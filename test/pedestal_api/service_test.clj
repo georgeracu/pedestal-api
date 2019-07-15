@@ -1,5 +1,6 @@
 (ns pedestal-api.service-test
   (:require [clojure.test :refer :all]
+            [clojure.string :as s]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as bootstrap]
             [pedestal-api.service :as service]))
@@ -25,7 +26,7 @@
 (deftest about-page-test
   (is (.contains
        (:body (response-for service :get "/about"))
-       "Clojure 1.9"))
+       "Clojure 1.10"))
   (is (=
        (:headers (response-for service :get "/about"))
        {"Content-Type" "text/html;charset=UTF-8"
@@ -37,3 +38,10 @@
         "X-Permitted-Cross-Domain-Policies" "none"
         "Content-Security-Policy" "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;"})))
 
+(deftest temperature-page-test
+  (is (=
+       (:body (response-for service :get "/temperature"))
+       "{\"celsius\":0,\"fahrenheit\":32}"))
+  (is (true?
+       (s/includes?
+        (:headers (response-for service :get "/temperature")) "application/json;charset=UTF-8"))))
