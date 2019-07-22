@@ -45,3 +45,12 @@
   (is (=
       "application/json;charset=UTF-8"
       (get-in(response-for service :get "/temperature")[:headers "Content-Type"]))))
+
+(deftest post-temperature-page-test
+        (let [response (response-for service
+                      :post "/temperature"
+                      :headers {"Content-Type" "application/json"}
+                      :body "{\"temperature\":\"0\"}")]
+          (is (= 200 (:status response)))
+          (is (= "{\"celsius\":0,\"fahrenheit\":32}" (:body response)))))
+

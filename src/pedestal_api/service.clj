@@ -19,6 +19,11 @@
   (ring-resp/response {:celsius 0
                        :fahrenheit 32}))
 
+(defn post-temperature-page
+  [{:keys [json-params] :as request}]
+  "A dummy handler"
+  (temperature-page request))
+
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
 ;; apply to / and its children (/about).
@@ -30,7 +35,8 @@
 ;; Tabular routes
 (def routes #{["/" :get (conj common-interceptors `home-page)]
               ["/about" :get (conj common-interceptors `about-page)]
-              ["/temperature" :get (conj [(body-params/body-params) http/json-body] `temperature-page)]})
+              ["/temperature" :get (conj [(body-params/body-params) http/json-body] `temperature-page)]
+              ["/temperature" :post (conj common-json-interceptors `post-temperature-page)]})
 
 ;; Map-based routes
 ;(def routes `{"/" {:interceptors [(body-params/body-params) http/html-body]
