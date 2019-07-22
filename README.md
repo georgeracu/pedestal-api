@@ -43,3 +43,14 @@ Once the image it built, it's cached.  To delete the image and build a new one:
 
 ## Links
 * [Other Pedestal examples](http://pedestal.io/samples)
+
+## Useful commands
+
+### Do a POST from `curl`
+
+```shell
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"temperature":"10"}' \
+  http://localhost:8080/temperature
+```
