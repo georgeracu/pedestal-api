@@ -35,7 +35,7 @@
 ;; Tabular routes
 (def routes #{["/" :get (conj common-interceptors `home-page)]
               ["/about" :get (conj common-interceptors `about-page)]
-              ["/temperature" :get (conj [(body-params/body-params) http/json-body] `temperature-page)]
+              ["/temperature" :get (conj common-json-interceptors `temperature-page)]
               ["/temperature" :post (conj common-json-interceptors `post-temperature-page)]})
 
 ;; Map-based routes
